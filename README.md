@@ -6,3 +6,7 @@ This is python discord self bot.It help you Level up quickly without texting. De
 
 ### **⚠️ Important:**  
 *I take no responsibility for any actions taken against your account for using these selfbots or how users use my open-source code.*
+
+### **ℹ️ How To Get Token:**
+
+*Run `generate_token.py` and enter account/password and tools will get token for you!*
