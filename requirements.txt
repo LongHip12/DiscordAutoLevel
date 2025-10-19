@@ -1,0 +1,5 @@
+discord.py-self>=1.9.0
+python-dotenv>=1.0.0
+colorama>=0.4.6
+asyncio
+protobuf==4.25.3
