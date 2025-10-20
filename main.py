@@ -1,41 +1,18 @@
 import discord
 import asyncio
 import datetime
-import itertools
-import os
 from dotenv import load_dotenv
 from colorama import init, Fore, Style
 
 # Khởi tạo colorama
 init()
 
-colors = [Fore.RED, Fore.YELLOW, Fore.GREEN, Fore.CYAN, Fore.BLUE, Fore.MAGENTA]
-
-ascii_art = r"""
- _                          _          ____          _
-| |      ___   _ __    ___ | | _   _  | __ )   ___  | |_
-| |     / _ \ | '_ \  / _ \| || | | | |  _ \  / _ \ | __|
-| |___ | (_) || | | ||  __/| || |_| | | |_) || (_) || |_
-|_____| \___/ |_| |_| \___||_| \__, | |____/  \___/  \__|
-                               |___/
-"""
-
-def print_chroma(text):
-    cycle_colors = itertools.cycle(colors)
-    result = ""
-    for char in text:
-        if char.strip():  # có ký tự
-            result += next(cycle_colors) + char + Style.RESET_ALL
-        else:  # giữ khoảng trắng
-            result += char
-    print(result)
-
-print_chroma(ascii_art)
-
+load_dotenv()
 class FixedAutoLevelBot:
     def __init__(self):
-        self.token = os.getenv("DISCORD_TOKEN")
-        self.channel_id = os.getenv("DISCORD_CHANNEL_ID")  # Đã thay channel id
+        self.token = os.getenv("TK")
+        self.channel_id = 1407335793000714391
+        # FIX: Dùng Client() đơn giản không intents
         self.client = discord.Client()
         self.is_running = False
         
@@ -52,29 +29,13 @@ class FixedAutoLevelBot:
         print(f"{Fore.CYAN}[Info]{Style.RESET_ALL} User: {self.client.user.name}")
         print(f"{Fore.CYAN}[Info]{Style.RESET_ALL} ID: {self.client.user.id}")
         
-        # Đặt status "Đang chơi Lonely Hub" với logo từ Imgur
+        # Đặt status
         try:
-            # Sử dụng Streaming activity để có thể thêm logo
-            activity = discord.Streaming(
-                name="Lonely Hub", 
-                url="https://dsc.gg/lonelyhub",
-                assets={
-                    'large_image': 'https://i.imgur.com/TWW22k4.jpeg',  # Thay bằng URL Imgur thật
-                    'large_text': 'Lonely Hub Inc',
-                    'small_image': 'https://i.imgur.com/W3w50x4.jpeg',   # Logo nhỏ (tùy chọn)
-                    'small_text': 'LongHip12'
-                }
-            )
-            await self.client.change_presence(status=discord.Status.online, activity=activity)
-            print(f"{Fore.GREEN}[Info]{Style.RESET_ALL} Đã đặt status với logo: Đang chơi Lonely Hub")
+            activity = discord.Game(name="Lonely Hub")
+            await self.client.change_presence(activity=activity)
+            print(f"{Fore.GREEN}[Info]{Style.RESET_ALL} Đã đặt status: Đang chơi Lonely Hub")
         except Exception as e:
-            # Fallback nếu streaming không work
-            try:
-                activity = discord.Game(name="Lonely Hub")
-                await self.client.change_presence(status=discord.Status.online, activity=activity)
-                print(f"{Fore.GREEN}[Info]{Style.RESET_ALL} Đã đặt status: Đang chơi Lonely Hub")
-            except Exception as e2:
-                print(f"{Fore.YELLOW}[Warn]{Style.RESET_ALL} Lỗi khi đặt status: {e2}")
+            print(f"{Fore.YELLOW}[Warn]{Style.RESET_ALL} Lỗi khi đặt status: {e}")
         
         # Bắt đầu auto level
         await self.start_auto_level()
@@ -101,16 +62,16 @@ class FixedAutoLevelBot:
                     await asyncio.sleep(60)
                     continue
                 
-                print(f"{Fore.CYAN}[Info]{Style.RESET_ALL} Lần {count}: Đang gửi text...")
+                print(f"{Fore.CYAN}[Info]{Style.RESET_ALL} Lần {count}: Đang gửi...")
                 
                 # Gửi !level
-                message = await channel.send("hello")
+                message = await channel.send("ㅤㅤㅤㅤㅤㅤㅤㅤ")
                 current_time = datetime.datetime.now().strftime("%H:%M:%S")
-                print(f"{Fore.GREEN}[Info]{Style.RESET_ALL} Đã gửi text lúc {current_time}")
+                print(f"{Fore.GREEN}[Info]{Style.RESET_ALL} Đã gửi lúc {current_time}")
                 
                 # Đợi 5 giây
-                print(f"{Fore.CYAN}[Info]{Style.RESET_ALL} Đợi 5 giây...")
-                await asyncio.sleep(5)
+                print(f"{Fore.CYAN}[Info]{Style.RESET_ALL} Đợi 2 giây...")
+                await asyncio.sleep(3)
                 
                 # Xóa tin nhắn
                 await message.delete()
@@ -145,11 +106,11 @@ class FixedAutoLevelBot:
             
         except Exception as e:
             print(f"{Fore.RED}[Error]{Style.RESET_ALL} Lỗi không xác định: {e}")
-            
+
 # Test token trước khi chạy
 def test_token():
     print(f"{Fore.CYAN}[Info]{Style.RESET_ALL} Kiểm tra token...")
-    token = os.getenv("DISCORD_TOKEN")
+    token = "MTE4NzYxODg0MDI1MTc0MDE2Mw.GZ2_oF.X4eRUxBK38FtjLXYKusio9w9wkwkendndnennw8"
     
     if not token or token == "token_của_bạn":
         print(f"{Fore.RED}[Error]{Style.RESET_ALL} Chưa thay token mới!")
