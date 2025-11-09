@@ -3,4 +3,4 @@ python-dotenv>=1.0.0
 colorama>=0.4.6
 asyncio
 protobuf==4.25.3
-flask==2.3.0
+flask>=2.3.0
